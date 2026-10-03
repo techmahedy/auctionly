@@ -85,22 +85,24 @@ if (dialog && form) {
                 headers: { Accept: 'application/json', ...(window.__DOPPAR_FRONTEND__?.headers ?? {}) },
                 body: new FormData(form),
             });
-            const payload = await response.json().catch(() => ({}));
+            const payload = await response.json().catch(() => null);
 
-            if (response.ok && payload.ok) {
+            if (response.ok && payload?.ok) {
                 successText.textContent = payload.message ?? successText.textContent;
                 form.reset();
                 form.hidden = true;
                 success.hidden = false;
                 success.focus();
-            } else if (response.status === 422 && payload.errors) {
+            } else if (response.status === 422 && payload?.errors) {
                 setErrors(payload.errors);
                 showAlert(payload.message ?? 'Please fix the highlighted fields.');
                 form.querySelector<HTMLElement>('.field.invalid [name]')?.focus();
             } else if (response.status === 429) {
                 showAlert('Too many messages from this address. Please wait a few minutes and try again.');
+            } else if (response.status === 419 || (response.status === 500 && payload === null)) {
+                showAlert('Your session expired. Reload the page and send the message again.');
             } else {
-                showAlert(payload.message ?? 'We could not send your message. Please try again in a minute.');
+                showAlert(payload?.message ?? `We could not send your message (error ${response.status}). Please try again in a minute.`);
             }
         } catch {
             if (!signal.aborted) showAlert('Network error. Check your connection and try again.');

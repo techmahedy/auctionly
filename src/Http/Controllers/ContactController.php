@@ -26,7 +26,9 @@ class ContactController extends Controller
     )]
     public function send(Request $request)
     {
-        if (trim((string) $request->input('website', '')) !== '') {
+        if (trim((string) $request->input('contact_hp', '')) !== '') {
+            error_log('Contact form: honeypot field was filled, message dropped (ip ' . $request->ip() . ').');
+
             return response()->json(['ok' => true, 'message' => 'Thanks, your message is on its way.']);
         }
 
