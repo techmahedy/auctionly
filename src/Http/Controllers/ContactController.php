@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContactInquiry;
 use Phaseolies\Http\Request;
+use Phaseolies\Support\Facades\Log;
 use Phaseolies\Support\Facades\Mail;
 use Phaseolies\Support\Router\Attributes\Route;
 
@@ -27,7 +28,7 @@ class ContactController extends Controller
     public function send(Request $request)
     {
         if (trim((string) $request->input('contact_hp', '')) !== '') {
-            error_log('Contact form: honeypot field was filled, message dropped (ip ' . $request->ip() . ').');
+            Log::error('Contact form: honeypot field was filled, message dropped (ip ' . $request->ip() . ').');
 
             return response()->json(['ok' => true, 'message' => 'Thanks, your message is on its way.']);
         }
