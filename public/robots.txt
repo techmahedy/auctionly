@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /build/
+
+Sitemap: http://localhost:8000/sitemap.xml
