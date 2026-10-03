@@ -472,8 +472,8 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                 </div>
 
                 <div class="contact-trap" aria-hidden="true">
-                    <label for="cf-website">Leave this empty</label>
-                    <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+                    <label for="cf-hp">Leave this empty</label>
+                    <input id="cf-hp" name="contact_hp" type="text" tabindex="-1" autocomplete="off" />
                 </div>
 
                 <p id="contact-alert" class="contact-alert" role="alert" hidden></p>
