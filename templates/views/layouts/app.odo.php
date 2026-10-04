@@ -142,8 +142,11 @@
         "Exactly-once billing",
         "Bid hierarchy: zone, site, category, campaign",
         "Conversion tracking with postback builder and attribution models",
-        "REST API",
+        "REST API with ten endpoints, including creative image upload",
+        "Campaign review: advertiser campaigns are approved by an administrator before they bid",
+        "Printable receipts for every top-up, Terms and Privacy acceptance on record, optional email confirmation at sign-up",
         "Two-factor authentication, signed tracking URLs, audit log",
+        "Media domain and CDN-ready creative image delivery",
         "Self-hosted with Docker and Caddy"
       ]
     }
@@ -152,68 +155,92 @@
         </script>
         <script type="application/ld+json">
         {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Is Auctionly a hosted service?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. Auctionly is self-hosted software. You deploy it with Docker on your own server, and your campaigns, wallets and events stay on your infrastructure."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Which OpenRTB version does it support?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "OpenRTB 2.5. Each exchange gets its own /bid/{exchange} endpoint and receives a bid, win notices and tracked clicks."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How fast does the bidder respond?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The target is under 100 ms, typically a few milliseconds. The bidder never touches the database on the bid path, and it applies a deadline derived from the exchange's tmax."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Which ad formats can advertisers run?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Seven: display, video (VAST), native, push, pop, domain redirect and deeplink."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do advertisers pay?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "They fund a prepaid wallet by card through Stripe or by bank transfer. Card payments are credited only after Stripe confirms them. Bank transfers are credited when an administrator approves the request."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can an impression be billed twice?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. An impression that is delivered twice is charged once. Events are keyed by their stream id, so a redelivered event overwrites itself instead of billing again."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What happens if Elasticsearch goes down?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Reporting falls back to PostgreSQL rollups. The dimensions that only the event log knows are then reported as unavailable, and bidding is not affected because the bidder only uses Redis."
-      }
-    }
-  ]
-}
-        </script>
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is Auctionly a hosted service?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Auctionly is self-hosted software. You deploy it with Docker on your own server, and your campaigns, wallets and events stay on your infrastructure."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which OpenRTB version does it support?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "OpenRTB 2.5. Each exchange gets its own /bid/{exchange} endpoint and receives a bid, win notices and tracked clicks."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How fast does the bidder respond?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The target is under 100 ms, typically a few milliseconds. The bidder never touches the database on the bid path, and it applies a deadline derived from the exchange's tmax."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which ad formats can advertisers run?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Seven: display, video (VAST), native, push, pop, domain redirect and deeplink."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do advertisers pay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "They fund a prepaid wallet by card through Stripe or by bank transfer. Card payments are credited only after Stripe confirms them. Bank transfers are credited when an administrator approves the request."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can an impression be billed twice?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. An impression that is delivered twice is charged once. Events are keyed by their stream id, so a redelivered event overwrites itself instead of billing again."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What happens if Elasticsearch goes down?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Reporting falls back to PostgreSQL rollups. The dimensions that only the event log knows are then reported as unavailable, and bidding is not affected because the bidder only uses Redis."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are campaigns reviewed before they go live?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, by default. An advertiser's campaign waits in review until an administrator approves it or sends it back with a note, and the advertiser is emailed either way. Administrators can mark an advertiser as trusted to skip the review, or switch the review off."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can advertisers use an API?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. The REST API has ten endpoints for campaigns, status changes, image upload and reports, with personal tokens and the same validation as the web form. An advertiser's token only sees that advertiser's campaigns."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do banner images need a CDN?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Not at first. By default the web app serves uploaded images. When traffic grows, serve them from a separate media domain, cached for a year, and put a CDN in front of it. Uploads always go to the app; the media domain only serves files."
+              }
+            }
+          ]
+        }
+      </script>
         <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
         <script>
             window.__DOPPAR_FRONTEND__ = {
