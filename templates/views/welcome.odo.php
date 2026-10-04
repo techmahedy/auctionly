@@ -14,6 +14,7 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
             <li><a class="no-underline hover:text-accent-ink" href="#how">How it works</a></li>
             <li><a class="no-underline hover:text-accent-ink" href="#formats">Formats</a></li>
             <li><a class="no-underline hover:text-accent-ink" href="#billing">Billing</a></li>
+            <li><a class="no-underline hover:text-accent-ink" href="#api">API</a></li>
             <li><a class="no-underline hover:text-accent-ink" href="#scale">Architecture</a></li>
             <li><a class="no-underline hover:text-accent-ink" href="#deploy">Deploy</a></li>
             <li><a class="no-underline hover:text-accent-ink" href="#licence">Licence</a></li>
@@ -172,7 +173,7 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                     <div class="border-b border-rule py-4 sm:pr-4 lg:border-l lg:pl-4"><dt class="mono-label">First top-up cap</dt><dd class="mt-2 font-mono text-xl font-medium">$500</dd></div>
                     <div class="border-b border-rule py-4 sm:pl-4 lg:border-l"><dt class="mono-label">Billing and tax details</dt><dd class="mt-2 font-mono text-xl font-medium">per advertiser</dd></div>
                 </dl>
-                <p class="-mt-4 max-w-176 text-[0.9375rem] text-ink-2">Limits are defaults you can change in the environment file. The first-top-up cap applies until an advertiser's first payment has settled, which limits the damage from a stolen card. The wallet balance shows in the top bar, with a warning when it will not cover the recent daily spend.</p>
+                <p class="-mt-4 max-w-176 text-[0.9375rem] text-ink-2">Limits are defaults you can change in the environment file. The first-top-up cap applies until an advertiser's first payment has settled, which limits the damage from a stolen card. The wallet balance shows in the top bar, with a warning when it will not cover the recent daily spend. Every credited top-up has a printable receipt with your company details.</p>
             </div>
         </section>
 
@@ -206,6 +207,8 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                     <div class="fact"><h3>Fuzz-tested input</h3><p>Seeded random malformed bid requests must never crash the parser or the auction. <code class="inline-code">make fuzz</code></p></div>
                     <div class="fact"><h3>Chaos-tested outages</h3><p>Redis, Postgres, Elasticsearch, mail and a killed worker are injected on purpose. <code class="inline-code">make chaos</code></p></div>
                     <div class="fact"><h3>Fails in the exchange's favour</h3><p>If Redis is down, win notices answer 503 so the exchange retries instead of losing the sale.</p></div>
+                    <div class="fact"><h3>Images stay off the app server</h3><p>Banner pictures are served from a media domain by Caddy straight from disk, with <code class="inline-code">immutable</code> caching. Point a CDN at it when traffic grows.</p></div>
+                    <div class="fact"><h3>Every click is kept for two jobs</h3><p>Counts and spend go to PostgreSQL for billing. The raw click goes to Elasticsearch for search and reports, kept 90 days by default.</p></div>
                 </div>
             </div>
         </section>
@@ -228,6 +231,9 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                     <article class="feat"><span class="mono-label">metrics</span><h3>Operable from day one</h3><p>The bidder serves /health and Prometheus /metrics: requests by exchange and outcome, rejections by reason, a latency histogram.</p></article>
                     <article class="feat"><span class="mono-label">mail</span><h3>Queued email with retries</h3><p>Sign-up, password reset and payment email goes through a queue with retries after 1, 2, 4 and 8 minutes. Bodies are erased once sent.</p></article>
                     <article class="feat"><span class="mono-label">demo</span><h3>Realistic data in one command</h3><p>make fake-data creates advertisers, wallets and campaigns. make traffic sends 300 requests through bid, win, pixel, click and conversion.</p></article>
+                    <article class="feat"><span class="mono-label">review</span><h3>Approve before it bids</h3><p>An advertiser's campaign waits in review until you approve it or send it back with a note. Trusted advertisers can skip it.</p></article>
+                    <article class="feat"><span class="mono-label">receipts</span><h3>Receipts, Terms, Privacy</h3><p>Every credited top-up has a printable receipt with your company details. Sign-up records which version of the Terms was accepted.</p></article>
+                    <article class="feat"><span class="mono-label">media</span><h3>Image upload and a CDN-ready domain</h3><p>Upload creatives in the form or with POST /api/v1/media. Serve them from their own domain, cached for a year, with a CDN in front when you need one.</p></article>
                 </div>
             </div>
         </section>
@@ -257,6 +263,70 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                         </ol>
                         <p class="mt-4 text-sm text-ink-2">Pay more on the zone that converts, and the default everywhere else. Ties are split at random.</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REVIEW -->
+        <section class="sec" id="review">
+            <div class="sec-label">Quality control</div>
+            <div class="sec-body">
+                <div>
+                    <h2 class="h2">Every campaign is reviewed before it bids.</h2>
+                    <p class="lede">Advertisers cannot put a campaign live by themselves. You decide what runs on your network, and the advertiser always hears the outcome.</p>
+                </div>
+                <ol class="panel grid md:grid-cols-4">
+                    <li class="step"><span class="n">SUBMITTED</span><h3>Save and submit</h3><p>The advertiser presses submit. The campaign is <b class="text-ink">In review</b> and does not bid.</p></li>
+                    <li class="step"><span class="n">YOU ARE TOLD</span><h3>Email and a queue</h3><p>Administrators get an email and see it on the dashboard, in the In review tab and as a count in the navigation.</p></li>
+                    <li class="step"><span class="n">DECIDED</span><h3>Approve or send back</h3><p>Approve and it bids within seconds. Or send it back to draft with a note, which the advertiser is emailed.</p></li>
+                    <li class="step"><span class="n">AFTERWARDS</span><h3>Stays approved</h3><p>Pausing and resuming needs no new review. Changing a creative or its landing URL sends it back.</p></li>
+                </ol>
+                <div class="grid items-start gap-10 md:grid-cols-2">
+                    <ul class="border-t border-ink text-[0.9875rem] text-ink-2">
+                        <li class="check"><b class="font-semibold text-ink">Trusted advertisers</b> skip the queue once you have seen their work.</li>
+                        <li class="check"><b class="font-semibold text-ink">The API follows the same rule.</b> A token that asks for <code>active</code> gets <code>202</code> and <code>pending_review</code>.</li>
+                        <li class="check"><b class="font-semibold text-ink">One switch.</b> <code>REQUIRE_CAMPAIGN_REVIEW=false</code> turns it off for everyone.</li>
+                        <li class="check"><b class="font-semibold text-ink">Every decision is in the audit log,</b> with who made it and the note.</li>
+                    </ul>
+                    <p class="max-w-120 border-l-[3px] border-mark py-1 pl-[1.1rem] text-ink-2"><b class="text-ink">Why it matters.</b> Exchanges hold you responsible for what you show. A review step is the cheapest protection against a misleading ad costing you a supply partner.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- API -->
+        <section class="sec" id="api">
+            <div class="sec-label">For developers</div>
+            <div class="sec-body">
+                <div>
+                    <h2 class="h2">Everything in the web app is in the API too.</h2>
+                    <p class="lede">Ten endpoints under <code>/api/v1</code>, JSON in and out, one personal token per script. An advertiser's token only ever sees that advertiser's campaigns, and the same validation applies as in the form.</p>
+                </div>
+                <div class="grid items-start gap-10 lg:grid-cols-2">
+                    <ul class="min-w-0 border-t border-ink">
+                        <li class="border-b border-rule py-3"><code class="text-accent-ink">GET /api/v1/me</code><p class="text-[0.9875rem] text-ink-2">Who the token belongs to.</p></li>
+                        <li class="border-b border-rule py-3"><code class="text-accent-ink">GET /api/v1/advertisers</code><p class="text-[0.9875rem] text-ink-2">The accounts you can see, with wallet balance.</p></li>
+                        <li class="border-b border-rule py-3"><code class="text-accent-ink">GET /api/v1/campaigns</code><p class="text-[0.9875rem] text-ink-2">List with filters, paging and sorting.</p></li>
+                        <li class="border-b border-rule py-3"><code class="text-accent-ink">POST /api/v1/campaigns</code><p class="text-[0.9875rem] text-ink-2">Create. The body is the campaign form.</p></li>
+                        <li class="border-b border-rule py-3"><code class="text-accent-ink">GET · PUT · DELETE /api/v1/campaigns/{id}</code><p class="text-[0.9875rem] text-ink-2">Read, change or delete one campaign.</p></li>
+                        <li class="border-b border-rule py-3"><code class="text-accent-ink">POST /api/v1/campaigns/{id}/status</code><p class="text-[0.9875rem] text-ink-2">Activate, pause, draft or archive. Activating can answer 202 while it waits for review.</p></li>
+                        <li class="border-b border-rule py-3"><code class="text-accent-ink">POST /api/v1/media</code><p class="text-[0.9875rem] text-ink-2">Upload a creative image and get its address.</p></li>
+                        <li class="border-b border-rule py-3"><code class="text-accent-ink">GET /api/v1/reports/campaigns</code><p class="text-[0.9875rem] text-ink-2">Spend, clicks and conversions per campaign.</p></li>
+                    </ul>
+                    <figure class="term">
+                        <div class="term-head"><span>upload, create, go live</span><span class="ml-auto text-term-str">example</span></div>
+<pre><span class="d">$</span> curl -X POST $BASE/api/v1/media \
+    -H <span class="s">"Authorization: Bearer $TOKEN"</span> \
+    -F image=@banner.png
+{ <span class="k">"data"</span>: {
+    <span class="k">"url"</span>: <span class="s">"https://media.example.com/media/ab/3f…c1.png"</span>,
+    <span class="k">"width"</span>: 320, <span class="k">"height"</span>: 250 } }
+
+<span class="d">$</span> curl -X POST $BASE/api/v1/campaigns/123/status \
+    -H <span class="s">"Authorization: Bearer $TOKEN"</span> \
+    -d <span class="s">'{"status":"active"}'</span>
+<span class="d">HTTP 202</span>
+{ <span class="k">"data"</span>: { <span class="k">"id"</span>: 123, <span class="k">"status"</span>: <span class="s">"pending_review"</span> } }</pre>
+                    </figure>
                 </div>
             </div>
         </section>
@@ -297,12 +367,15 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
             <div class="sec-label">Security</div>
             <div class="sec-body">
                 <h2 class="h2">Money and tracking you can defend.</h2>
-                <div class="panel grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                <div class="panel grid grid-cols-2 lg:grid-cols-4">
                     <div class="sec-cell"><h3>Two-factor, enforced</h3><p>Admins must enable TOTP. Recovery codes and a 48-hour cancellable lost-phone flow.</p></div>
                     <div class="sec-cell"><h3>Signed tracking URLs</h3><p>Win, pixel and click URLs carry an HMAC, so they cannot be forged.</p></div>
                     <div class="sec-cell"><h3>Audit log</h3><p>Sign-ins, account changes and admin actions are recorded.</p></div>
                     <div class="sec-cell"><h3>Stripe-confirmed only</h3><p>Cards are credited after Stripe confirms. A worker reconciles lost webhooks.</p></div>
                     <div class="sec-cell"><h3>Automated backups</h3><p><code>make backup</code> dumps the database and creatives, keeping as many as you set.</p></div>
+                    <div class="sec-cell"><h3>Confirmed sign-ups</h3><p>Switch it on and a new account cannot sign in until it opens a one-time link. Only a button confirms, so mail scanners cannot use the link up.</p></div>
+                    <div class="sec-cell"><h3>Terms on record</h3><p>Sign-up requires accepting the Terms and Privacy Policy, and stores which version and when.</p></div>
+                    <div class="sec-cell"><h3>Abuse limits</h3><p>Failed sign-ins lock out for 15 minutes. Sign-up, password reset, confirmation email and uploads are rate-limited per address.</p></div>
                 </div>
             </div>
         </section>
@@ -343,6 +416,35 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                         <p class="text-[0.9875rem] text-ink-2">Caddy is the only published service. It issues certificates, speaks HTTP/2 and limits request sizes. The written guide takes a fresh Linux server to HTTPS in about 45 minutes, plus DNS.</p>
                     </div>
                 </div>
+                <div class="grid gap-6 md:grid-cols-2">
+                    <div class="flex min-w-0 flex-col gap-4">
+                        <h3 class="text-xl tracking-[-0.015em]">Go-live check <small class="ml-2 font-mono text-[0.78rem] font-normal tracking-normal text-ink-3 [font-stretch:100%]">before the first customer</small></h3>
+                        <figure class="term">
+                            <div class="term-head"><span>./scripts/prod-check.sh</span><span class="ml-auto text-term-str">example</span></div>
+<pre><span class="ok">  ok  </span> DB_PASSWORD looks strong
+<span class="ok">  ok  </span> administrators must use two-factor
+<span class="ok">  ok  </span> Stripe is in LIVE mode
+<span class="s">  FAIL</span> LEGAL_REVIEWED is not true
+<span class="s">  FAIL</span> COMPANY_ADDRESS is empty
+
+<span class="d">NOT READY: 2 blocking problem(s)</span></pre>
+                        </figure>
+                        <p class="text-[0.9875rem] text-ink-2">It refuses to pass while a secret is weak, debug is on, email goes nowhere, Stripe is in test mode or your company details are missing. The owner's guide walks from an empty server to your first advertiser.</p>
+                    </div>
+                    <div class="flex min-w-0 flex-col gap-4">
+                        <h3 class="text-xl tracking-[-0.015em]">Images and a CDN <small class="ml-2 font-mono text-[0.78rem] font-normal tracking-normal text-ink-3 [font-stretch:100%]">optional</small></h3>
+                        <figure class="term">
+                            <div class="term-head"><span>.env</span></div>
+<pre>MEDIA_DOMAIN=<span class="s">media.example.com</span>
+MEDIA_BASE_URL=<span class="s">https://media.example.com</span>
+<span class="d"># or the address of a CDN that pulls from it</span>
+
+<span class="d">uploads  →  ads.example.com   →  disk</span>
+<span class="d">viewers  →  media.example.com →  disk</span></pre>
+                        </figure>
+                        <p class="text-[0.9875rem] text-ink-2">Uploads always go to the app and are saved on your server. The media domain only reads and serves them, so ad images never load from the web app.</p>
+                    </div>
+                </div>
                 <p class="max-w-168 border-l-[3px] border-mark py-1 pl-[1.1rem] text-ink-2"><b class="text-ink">Fully self-hosted.</b> There is no Auctionly cloud. Campaigns, wallets, events and creatives stay on your infrastructure, and your data never leaves it.</p>
             </div>
         </section>
@@ -377,6 +479,9 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                     <details class="faq"><summary>How do advertisers pay?</summary><p>They fund a prepaid wallet by card through Stripe or by bank transfer. Card payments are credited only after Stripe confirms them. Bank transfers are credited when an administrator approves the request.</p></details>
                     <details class="faq"><summary>Can an impression be billed twice?</summary><p>No. An impression that is delivered twice is charged once. Events are keyed by their stream id, so a redelivered event overwrites itself instead of billing again.</p></details>
                     <details class="faq"><summary>What happens if Elasticsearch goes down?</summary><p>Reporting falls back to PostgreSQL rollups. The dimensions that only the event log knows are then reported as unavailable, and bidding is not affected because the bidder only uses Redis.</p></details>
+                    <details class="faq"><summary>Are campaigns reviewed before they go live?</summary><p>Yes, by default. An advertiser's campaign waits in review until an administrator approves it or sends it back with a note, and the advertiser is emailed either way. Administrators can mark an advertiser as trusted to skip the review, or switch the review off.</p></details>
+                    <details class="faq"><summary>Can advertisers use an API?</summary><p>Yes. The REST API has ten endpoints for campaigns, status changes, image upload and reports, with personal tokens and the same validation as the web form. An advertiser's token only sees that advertiser's campaigns.</p></details>
+                    <details class="faq"><summary>Do banner images need a CDN?</summary><p>Not at first. By default the web app serves uploaded images. When traffic grows, serve them from a separate media domain, cached for a year, and put a CDN in front of it. Uploads always go to the app; the media domain only serves files.</p></details>
                 </div>
             </div>
         </section>
