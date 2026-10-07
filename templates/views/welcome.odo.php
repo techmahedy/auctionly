@@ -1,6 +1,6 @@
 #extends('layouts.app')
 #section('title')
-Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
+Auctionly: Self-Hosted RTB Platform and Ad Network Software
 #endsection
 #section('content')
 
@@ -13,14 +13,14 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
         <ul class="ml-auto hidden gap-6 text-[0.9375rem] text-ink-2 md:flex">
             <li><a class="no-underline hover:text-accent-ink" href="#how">How it works</a></li>
             <li><a class="no-underline hover:text-accent-ink" href="#formats">Formats</a></li>
+            <li><a class="no-underline hover:text-accent-ink" href="#publishers">Publishers</a></li>
             <li><a class="no-underline hover:text-accent-ink" href="#billing">Billing</a></li>
             <li><a class="no-underline hover:text-accent-ink" href="#api">API</a></li>
             <li><a class="no-underline hover:text-accent-ink" href="#scale">Architecture</a></li>
             <li><a class="no-underline hover:text-accent-ink" href="#deploy">Deploy</a></li>
-            <li><a class="no-underline hover:text-accent-ink" href="#licence">Licence</a></li>
+            <li><a class="no-underline hover:text-accent-ink" href="#licence">Pricing</a></li>
         </ul>
-        <a class="ml-auto text-[0.9375rem] text-ink-2 no-underline hover:text-accent-ink md:ml-0" href="#">Sign in</a>
-        <button type="button" class="btn !px-3.5 !py-2.5 !text-sm" data-contact="Source licence">Get the source</button>
+        <button type="button" class="btn ml-auto !px-3.5 !py-2.5 !text-sm md:ml-0" data-contact="Source licence">Get the source</button>
     </div>
 </header>
 
@@ -29,11 +29,11 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
     <!-- HERO -->
     <section class="mx-auto grid max-w-[74rem] items-center gap-10 py-12 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:pt-[4.5rem] lg:pb-14">
         <div>
-            <p class="eyebrow mb-[1.4rem] text-accent-ink">BIDDER + CAMPAIGN MANAGER + WALLET</p>
+            <p class="eyebrow mb-[1.4rem] text-accent-ink">EXCHANGES + PUBLISHERS + WALLET</p>
             <h1 class="text-[clamp(2.5rem,5.4vw,4.4rem)] leading-none font-extrabold tracking-[-0.035em]">
-                Your own ad exchange, <em class="bg-[linear-gradient(transparent_74%,var(--color-mark)_74%,var(--color-mark)_92%,transparent_92%)] not-italic">self-hosted.</em>
+                Your own ad network, <em class="bg-[linear-gradient(transparent_74%,var(--color-mark)_74%,var(--color-mark)_92%,transparent_92%)] not-italic">self-hosted.</em>
             </h1>
-            <p class="mt-6 max-w-136 text-[1.1875rem] text-ink-2">Auctionly is the bidder, campaign manager and wallet billing for running your own ad network. OpenRTB 2.5 in, a bid out in under 100 ms, seven ad formats, and every record on a server you control</p>
+            <p class="mt-6 max-w-136 text-[1.1875rem] text-ink-2">Auctionly is the bidder, campaign manager, publisher portal and billing for running your own ad network. Buy from ad exchanges over OpenRTB 2.5 with a bid out in under 100 ms, or from publishers you onboard yourself with a verified site and one ad tag. Seven ad formats, and every record on a server you control.</p>
             <div class="mt-8 flex flex-wrap gap-3">
                 <button type="button" class="btn" data-contact="Source licence">Get the source</button>
                 <button type="button" class="btn btn-ghost" data-contact="Live demo">See a live demo</button>
@@ -59,6 +59,13 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
 
 <span class="d">no match → 204 + X-Nobid-Reasons: targeting:country=3</span></pre>
             </figure>
+            <figure class="term">
+                <div class="term-head"><span>publisher site</span><span class="ml-auto text-term-str">no ad server needed</span></div>
+<pre><span class="d">&lt;!-- one tag, pasted where the ad goes --&gt;</span>
+&lt;<span class="k">script</span> <span class="k">async</span> <span class="k">src</span>=<span class="s">"…/t/z-4f2a91c07b.js"</span>&gt;&lt;/<span class="k">script</span>&gt;
+
+<span class="d">verified site → ad served → impression counted → paid</span></pre>
+            </figure>
         </div>
     </section>
 
@@ -80,13 +87,13 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
             <div class="sec-body">
                 <div>
                     <h2 class="h2">From funded wallet to billed impression.</h2>
-                    <p class="lede">Three parties, one event stream. Each step writes to <code>rtb:events</code>, so billing and reporting read the same facts the bidder produced.</p>
+                    <p class="lede">Advertisers, and two ways to bring supply: exchanges over OpenRTB, or publishers you onboard directly. One event stream either way. Each step writes to <code>rtb:events</code>, so billing and reporting read the same facts the bidder produced.</p>
                 </div>
 
                 <ol class="panel grid md:grid-cols-3">
                     <li class="step"><span class="n">STEP 1</span><h3>Advertisers fund and launch</h3><p>Sign up, add funds by card or bank transfer, create a campaign in any of seven formats. It reaches the bidder about three seconds after you save it.</p></li>
-                    <li class="step"><span class="n">STEP 2</span><h3>Exchanges send bid requests</h3><p>Each exchange registers once and posts OpenRTB 2.5 to its own <code>/bid/{exchange}</code> endpoint with its token.</p></li>
-                    <li class="step"><span class="n">STEP 3</span><h3>Bidder answers, billing happens once</h3><p>The bidder picks the best campaign per impression and responds inside the exchange's <code>tmax</code>. The aggregator debits the wallet one time per impression.</p></li>
+                    <li class="step"><span class="n">STEP 2</span><h3>Supply arrives from exchanges or publishers</h3><p>An exchange registers once and posts OpenRTB 2.5 to its own <code>/bid/{exchange}</code> endpoint. A publisher verifies a site, creates a zone and pastes one tag or sends visitors to a URL.</p></li>
+                    <li class="step"><span class="n">STEP 3</span><h3>A campaign is picked, billing happens once</h3><p>Exchange traffic runs an auction inside the exchange's <code>tmax</code>. Publisher traffic goes to matching campaigns in turn at their fixed prices. The aggregator debits the wallet and credits the publisher one time per impression.</p></li>
                 </ol>
 
                 <div class="panel min-w-0 px-6 pt-6 pb-5">
@@ -102,6 +109,22 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                         <span><i class="mr-2 inline-block size-[0.7rem] rounded-full bg-mark align-[-1px]"></i>Billing event. A win delivered twice is charged once.</span>
                         <span class="w-fit rounded-[3px] bg-accent-tint px-[0.7rem] py-2 font-mono text-[0.8rem] leading-none font-medium whitespace-nowrap text-accent-ink">rtb:events</span>
                         <span>Aggregator writes stats and spend. Indexer writes each event to Elasticsearch.</span>
+                    </div>
+                </div>
+
+                <div class="panel min-w-0 px-6 pt-6 pb-5">
+                    <div class="mono-label mb-6 flex flex-wrap justify-between gap-4 !leading-snug"><span>Life of one publisher view</span><span>No auction, no ad server</span></div>
+                    <ol class="relative grid gap-5 before:absolute before:top-1.5 before:bottom-1.5 before:left-[0.42rem] before:border-l-[1.5px] before:border-ink before:content-[''] md:grid-cols-5 md:gap-0 md:before:inset-x-0 md:before:top-[0.6rem] md:before:bottom-auto md:before:left-0 md:before:border-t-[1.5px] md:before:border-l-0">
+                        <li class="flow-item"><b>Tag</b><code>/t/{zone}.js</code><span>One script on the publisher's page adds a sized, sandboxed frame.</span></li>
+                        <li class="flow-item"><b>Check</b><code>/a/{zone}</code><span>A real browser, on the zone's own site, within the zone's limits.</span></li>
+                        <li class="flow-item"><b>Pick</b><code>rotation</code><span>Matching campaigns take turns, each at its own fixed price.</span></li>
+                        <li class="flow-item bill"><b>Count</b><code>impression</code><span>Served is counted. Advertiser debited, publisher credited, once.</span></li>
+                        <li class="flow-item"><b>Land</b><code>/click</code><span>Redirect to the advertiser with a click id. A conversion postback matches it.</span></li>
+                    </ol>
+                    <div class="mt-6 grid items-center gap-x-4 gap-y-3 border-t border-dashed border-rule-strong pt-[1.1rem] text-sm text-ink-2 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+                        <span><i class="mr-2 inline-block size-[0.7rem] rounded-full bg-mark align-[-1px]"></i>Redirect traffic (pop, domain, deeplink) counts the view and the click in one visit.</span>
+                        <span class="w-fit rounded-[3px] bg-accent-tint px-[0.7rem] py-2 font-mono text-[0.8rem] leading-none font-medium whitespace-nowrap text-accent-ink">/r/{zone}</span>
+                        <span>The same event stream feeds billing, publisher earnings and reports.</span>
                     </div>
                 </div>
             </div>
@@ -125,6 +148,7 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                     <div class="row" role="row"><b>Domain redirect</b><code>domain</code><span>A destination URL for redirect traffic.</span></div>
                     <div class="row" role="row"><b>Deeplink</b><code>deeplink</code><span>An app deeplink or universal link as the destination.</span></div>
                 </div>
+                <p class="max-w-176 text-[0.9375rem] text-ink-2">Through exchanges all seven formats run. Publishers you onboard directly sell <b class="text-ink">display</b> through an ad tag, and <b class="text-ink">pop</b>, <b class="text-ink">domain redirect</b> and <b class="text-ink">deeplink</b> through a traffic URL. Video, native and push need an ad server, so they stay on OpenRTB.</p>
                 <p class="max-w-176 text-[0.9375rem] text-ink-2">Display, video and native are read from the OpenRTB imp objects. Push, pop, domain and deeplink are not, so the exchange either sends <code>imp.ext.adformat</code> or is registered with a traffic type.</p>
             </div>
         </section>
@@ -171,7 +195,7 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                     <div class="border-b border-rule py-4 sm:pr-4"><dt class="mono-label">Minimum top-up</dt><dd class="mt-2 font-mono text-xl font-medium">$10</dd></div>
                     <div class="border-b border-rule py-4 sm:pl-4 lg:border-l"><dt class="mono-label">Maximum top-up</dt><dd class="mt-2 font-mono text-xl font-medium">$10,000</dd></div>
                     <div class="border-b border-rule py-4 sm:pr-4 lg:border-l lg:pl-4"><dt class="mono-label">First top-up cap</dt><dd class="mt-2 font-mono text-xl font-medium">$500</dd></div>
-                    <div class="border-b border-rule py-4 sm:pl-4 lg:border-l"><dt class="mono-label">Billing and tax details</dt><dd class="mt-2 font-mono text-xl font-medium">per advertiser</dd></div>
+                    <div class="border-b border-rule py-4 sm:pl-4 lg:border-l"><dt class="mono-label">Billing and tax details</dt><dd class="mt-2 font-mono text-xl font-medium">advertisers and publishers</dd></div>
                 </dl>
                 <p class="-mt-4 max-w-176 text-[0.9375rem] text-ink-2">Limits are defaults you can change in the environment file. The first-top-up cap applies until an advertiser's first payment has settled, which limits the damage from a stolen card. The wallet balance shows in the top bar, with a warning when it will not cover the recent daily spend. Every credited top-up has a printable receipt with your company details.</p>
             </div>
@@ -188,8 +212,8 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                 <div class="panel grid md:grid-cols-[1fr_1.25fr]">
                     <div class="min-w-0 p-6">
                         <h3 class="zone-title"><span class="text-accent-ink">Hot path</span> · answers the exchange</h3>
-                        <div class="flex flex-wrap gap-2"><span class="node">exchange</span><span class="node node-core">bidder</span><span class="node node-store">redis</span></div>
-                        <p class="zone-note">The bidder reads campaigns from memory and Redis. It never opens a database connection, so a slow Postgres cannot slow a bid.</p>
+                        <div class="flex flex-wrap gap-2"><span class="node">exchange</span><span class="node">publisher site</span><span class="node node-core">bidder</span><span class="node node-store">redis</span></div>
+                        <p class="zone-note">The bidder reads campaigns from memory and Redis, for exchange bids and publisher views alike. It never opens a database connection, so a slow Postgres cannot slow a bid.</p>
                     </div>
                     <div class="min-w-0 border-t border-rule bg-paper p-6 md:border-t-0 md:border-l">
                         <h3 class="zone-title">Cold path · money, reports, admin</h3>
@@ -208,6 +232,8 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                     <div class="fact"><h3>Chaos-tested outages</h3><p>Redis, Postgres, Elasticsearch, mail and a killed worker are injected on purpose. <code class="inline-code">make chaos</code></p></div>
                     <div class="fact"><h3>Fails in the exchange's favour</h3><p>If Redis is down, win notices answer 503 so the exchange retries instead of losing the sale.</p></div>
                     <div class="fact"><h3>Images stay off the app server</h3><p>Banner pictures are served from a media domain by Caddy straight from disk, with <code class="inline-code">immutable</code> caching. Point a CDN at it when traffic grows.</p></div>
+                    <div class="fact"><h3>Publishers do not slow the bidder</h3><p>Zones live in their own Redis hash, are fetched on demand and cached for seconds. A new zone never makes every bidder reload the campaigns.</p></div>
+                    <div class="fact"><h3>Money is bounded per zone</h3><p>Daily ceilings per address and per zone cap what any one zone can cost advertisers, whatever a script does. <code class="inline-code">TAG_VIEWS_PER_ZONE_PER_DAY</code></p></div>
                     <div class="fact"><h3>Every click is kept for two jobs</h3><p>Counts and spend go to PostgreSQL for billing. The raw click goes to Elasticsearch for search and reports, kept 90 days by default.</p></div>
                 </div>
             </div>
@@ -225,7 +251,7 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                     <article class="feat"><span class="mono-label">campaign-manager</span><h3>Web app and REST API</h3><p>One campaign form with ad-format cards, budgets, bid hierarchy, delivery limits, creatives, targeting and conversion setup. The API enforces the same rules.</p></article>
                     <article class="feat"><span class="mono-label">reporting</span><h3>Reports on every dimension</h3><p>Totals, time series and breakdowns by campaign, day, hour, exchange, bid level, creative, country, OS, device, site, publisher, ad format and zone. CSV export and event-log search.</p></article>
                     <article class="feat"><span class="mono-label">optimizer</span><h3>Bids that follow results</h3><p>Give a campaign a CPA or CTR goal and a bid multiplier moves toward what converts, without anyone touching the bid.</p></article>
-                    <article class="feat"><span class="mono-label">zones</span><h3>Whitelist, blacklist, bid per zone</h3><p>Block or allow placements, share large lists between campaigns, and set a bid for one zone straight from the report.</p></article>
+                    <article class="feat"><span class="mono-label">placements</span><h3>Whitelist, blacklist, bid per zone</h3><p>Block or allow placements, share large lists between campaigns, and set a bid for one zone straight from the report.</p></article>
                     <article class="feat"><span class="mono-label">tracking</span><h3>Landing-URL tags and postbacks</h3><p>Insert tags like {click_id}, {zone} and {country} into destination URLs. A postback builder writes the conversion URL for your tracker.</p></article>
                     <article class="feat"><span class="mono-label">limits</span><h3>Budgets, pacing, caps</h3><p>Daily and lifetime budgets, pacing, frequency caps, schedules, impression and click limits. A campaign that hits one pauses and records why.</p></article>
                     <article class="feat"><span class="mono-label">metrics</span><h3>Operable from day one</h3><p>The bidder serves /health and Prometheus /metrics: requests by exchange and outcome, rejections by reason, a latency histogram.</p></article>
@@ -233,6 +259,9 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                     <article class="feat"><span class="mono-label">demo</span><h3>Realistic data in one command</h3><p>make fake-data creates advertisers, wallets and campaigns. make traffic sends 300 requests through bid, win, pixel, click and conversion.</p></article>
                     <article class="feat"><span class="mono-label">review</span><h3>Approve before it bids</h3><p>An advertiser's campaign waits in review until you approve it or send it back with a note. Trusted advertisers can skip it.</p></article>
                     <article class="feat"><span class="mono-label">receipts</span><h3>Receipts, Terms, Privacy</h3><p>Every credited top-up has a printable receipt with your company details. Sign-up records which version of the Terms was accepted.</p></article>
+                    <article class="feat"><span class="mono-label">publishers</span><h3>Portal for sites, zones and payouts</h3><p>Publishers sign up, add a site, create zones and copy a tag. Earnings, payout progress and billing details are in their own area.</p></article>
+                    <article class="feat"><span class="mono-label">verification</span><h3>Ownership proven before traffic</h3><p>A meta tag, a file or a DNS record proves a site is the publisher's. You approve it, and only then can it have zones.</p></article>
+                    <article class="feat"><span class="mono-label">zones</span><h3>Thousands of zones, one snapshot</h3><p>Zones are looked up on demand and kept out of the campaign snapshot, so adding publishers never slows a campaign reload.</p></article>
                     <article class="feat"><span class="mono-label">media</span><h3>Image upload and a CDN-ready domain</h3><p>Upload creatives in the form or with POST /api/v1/media. Serve them from their own domain, cached for a year, with a CDN in front when you need one.</p></article>
                 </div>
             </div>
@@ -245,6 +274,7 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
                 <h2 class="h2">Self-serve buying, with the controls media buyers ask for.</h2>
                 <div class="grid items-start gap-10 md:grid-cols-2">
                     <dl class="border-t border-ink">
+                        <div class="dl-row"><dt>Supply</dt><dd>Buy from exchanges, from your own publishers, or both, per campaign. Publisher-only campaigns pay a fixed price per view, click or conversion.</dd></div>
                         <div class="dl-row"><dt>Wallet</dt><dd>Fund by card (credited only after Stripe confirms) or by bank transfer approved by an admin.</dd></div>
                         <div class="dl-row"><dt>Targeting</dt><dd>Geo (country to ZIP), device, OS, carrier, domain, app, zone, category, keyword, audience.</dd></div>
                         <div class="dl-row"><dt>Conversions</dt><dd>Postback builder, a window per campaign, and conversions that keep the click's format, zone and country.</dd></div>
@@ -362,6 +392,77 @@ Auctionly: Self-Hosted RTB Platform and Ad Exchange Software
             </div>
         </section>
 
+        <!-- PUBLISHERS -->
+        <section class="sec" id="publishers">
+            <div class="sec-label">For publishers</div>
+            <div class="sec-body">
+                <div>
+                    <h2 class="h2">Onboard site owners who have no ad server.</h2>
+                    <p class="lede">Most publishers cannot speak OpenRTB. They sign up, add a website, prove it is theirs and paste one tag. There is no auction here: matching campaigns take turns at fixed prices, and the publisher is paid on terms you set.</p>
+                </div>
+
+                <ol class="panel grid md:grid-cols-4">
+                    <li class="step"><span class="n">SIGN UP</span><h3>Submit a site</h3><p>A publisher creates an account and adds the website it sends traffic from. The site waits for review.</p></li>
+                    <li class="step"><span class="n">VERIFIED</span><h3>Prove it is theirs</h3><p>A meta tag, a file at the root, or a DNS TXT record. Any one is enough, and the check refuses private addresses.</p></li>
+                    <li class="step"><span class="n">APPROVED</span><h3>You review the site</h3><p>Approve or reject with a reason, and the publisher is emailed. Suspend a site and its zones stop at once.</p></li>
+                    <li class="step"><span class="n">LIVE</span><h3>Create a zone, paste the tag</h3><p>Only an approved site can have zones. A Get tag page gives copy-and-paste code and says what happens next.</p></li>
+                </ol>
+
+                <div class="grid items-start gap-10 md:grid-cols-2">
+                    <ul class="border-t border-ink text-[0.9875rem] text-ink-2">
+                        <li class="check"><b class="font-semibold text-ink">Two ways to send traffic.</b> An ad tag shows a banner on the page. A traffic URL sends visitors to the advertiser in one redirect.</li>
+                        <li class="check"><b class="font-semibold text-ink">Fixed prices, no auction.</b> Campaigns that match the visitor rotate. Advertisers pay per view, per click or per conversion.</li>
+                        <li class="check"><b class="font-semibold text-ink">Pay on your terms.</b> A share of the advertiser's spend, or a fixed amount per view, click or conversion, per publisher or per zone.</li>
+                        <li class="check"><b class="font-semibold text-ink">Payouts with progress.</b> Requested, processing, paid, with the transfer reference and an email at each step. Earnings are held for a few days first.</li>
+                        <li class="check"><b class="font-semibold text-ink">Billing and tax on file.</b> Legal name, address and tax id are required before a payout, and kept with each one.</li>
+                        <li class="check"><b class="font-semibold text-ink">Campaigns choose their supply.</b> Exchanges, publishers or both, per campaign. A publisher-only campaign can pay per conversion.</li>
+                    </ul>
+                    <figure class="term">
+                        <div class="term-head"><span>what a publisher pastes</span><span class="ml-auto text-term-str">example</span></div>
+<pre><span class="d">&lt;!-- display zone: a banner on the page --&gt;</span>
+&lt;<span class="k">script</span> <span class="k">async</span>
+  <span class="k">src</span>=<span class="s">"https://bid.example.com/t/z-4f2a91c07b.js"</span>&gt;
+&lt;/<span class="k">script</span>&gt;
+
+<span class="d">&lt;!-- pop, domain, deeplink: send the visitor --&gt;</span>
+&lt;<span class="k">a</span> <span class="k">target</span>=<span class="s">"_blank"</span>
+  <span class="k">href</span>=<span class="s">"https://bid.example.com/r/z-9c13"</span>&gt;Open&lt;/<span class="k">a</span>&gt;
+
+<span class="d">verified site → zone → tag → earnings on the dashboard</span></pre>
+                    </figure>
+                </div>
+
+                <div class="panel grid md:grid-cols-2 lg:grid-cols-4">
+                    <article class="feat"><span class="mono-label">portal</span><h3>Sites, zones, tags</h3><p>A portal of their own: sites and their review status, zones, copy-and-paste tags and a dashboard of impressions, clicks, conversions and earnings.</p></article>
+                    <article class="feat"><span class="mono-label">earnings</span><h3>Exact, once</h3><p>Earnings are credited together with the advertiser's charge, one time per impression, with the terms that applied kept on each row.</p></article>
+                    <article class="feat"><span class="mono-label">payouts</span><h3>Requested to paid</h3><p>A payout moves through requested, processing and paid, with a reference. The money leaves the balance when it is asked for, and comes back if it is rejected.</p></article>
+                    <article class="feat"><span class="mono-label">admin</span><h3>A queue for you</h3><p>Sites waiting for review, payouts to send, quality flags per zone, and a margin view of what advertisers paid against what publishers earned.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRAFFIC QUALITY -->
+        <section class="sec" id="traffic">
+            <div class="sec-label">Traffic quality</div>
+            <div class="sec-body">
+                <div>
+                    <h2 class="h2">When a publisher is paid for what it counts, every count is checked.</h2>
+                    <p class="lede">Exchanges are contracted companies. Publishers are anyone who signs up, so the platform assumes any number a publisher produces could be false and bounds what it can cost.</p>
+                </div>
+                <div class="panel grid grid-cols-2 lg:grid-cols-4">
+                    <div class="sec-cell"><h3>Verified sites only</h3><p>A zone serves traffic only while its site is approved. Suspending a site stops its zones at once.</p></div>
+                    <div class="sec-cell"><h3>The right site</h3><p>An ad is served only to a page on the zone's own site. Copying the tag onto another site gets nothing.</p></div>
+                    <div class="sec-cell"><h3>Real visitors</h3><p>Bots, crawlers and scripts are not sold. Country and device come from your edge network, not from the publisher.</p></div>
+                    <div class="sec-cell"><h3>Daily ceilings</h3><p>Per address and per zone, per day, whatever browser string is used. Raise a limit for a large site after a review.</p></div>
+                    <div class="sec-cell"><h3>Signed, fixed prices</h3><p>Tracked URLs carry an HMAC. A forged price, campaign or level is refused, and a click or win counts once.</p></div>
+                    <div class="sec-cell"><h3>OpenRTB off by default</h3><p>A publisher's own bid requests prove nothing, so the endpoint is opt-in per zone for partners you trust.</p></div>
+                    <div class="sec-cell"><h3>Payout hold</h3><p>Earnings are held for a few days so bad traffic can be taken back with an adjustment before the money leaves.</p></div>
+                    <div class="sec-cell"><h3>Quality flags</h3><p>Zones with a very high click rate, no conversions, or a payout above what advertisers pay are flagged for you.</p></div>
+                </div>
+                <p class="max-w-168 border-l-[3px] border-mark py-1 pl-[1.1rem] text-ink-2"><b class="text-ink">Honest limits.</b> A redirect has no page to inspect, and a script can fake a referrer. The limits, the hold and the flags are what bound the cost, not a promise that no fake traffic exists.</p>
+            </div>
+        </section>
+
         <!-- SECURITY -->
         <section class="sec" id="security">
             <div class="sec-label">Security</div>
@@ -451,18 +552,38 @@ MEDIA_BASE_URL=<span class="s">https://media.example.com</span>
 
         <!-- LICENSING -->
         <section class="sec" id="licence">
-            <div class="sec-label">Licensing</div>
+            <div class="sec-label">Pricing</div>
             <div class="sec-body">
                 <div>
                     <h2 class="h2">Buy the source. Run it as your own.</h2>
-                    <p class="lede">You receive the code and deploy it yourself. These are placeholder tiers; replace them with your actual terms.</p>
+                    <p class="lede">You receive the code and deploy it yourself. Choose how much help you want with it: none, ongoing support, or a white-label setup we plan with you.</p>
                 </div>
                 <div class="panel grid md:grid-cols-3">
-                    <div class="plan"><span class="mono-label">Tier A</span><h3>Source licence</h3><div class="price">$ — <i>one-time</i></div><ul><li>Full source for all services</li><li>Use on your own infrastructure</li><li>Updates for a set period</li></ul></div>
-                    <div class="plan"><span class="mono-label">Tier B</span><h3>Subscription</h3><div class="price">$ — <i>per year</i></div><ul><li>Everything in Tier A</li><li>Continuous updates</li><li>Support channel</li></ul></div>
-                    <div class="plan"><span class="mono-label">Tier C</span><h3>White-label</h3><div class="price">Talk to us</div><ul><li>Your brand, domain and logo</li><li>Resell to your own advertisers</li><li>Onboarding help</li></ul></div>
+                    <div class="plan">
+                        <span class="mono-label">Tier A</span>
+                        <h3>Source licence</h3>
+                        <div class="price">$999 <i>one-time</i></div>
+                        <p class="text-[0.9375rem] text-ink-2">The code, sold once. No consultation and no support: you read it, you run it.</p>
+                        <ul><li>Full source for all services</li><li>One payment, no renewal</li><li>No consultation, no support</li></ul>
+                        <button type="button" class="btn btn-ghost mt-auto" data-contact="Source licence">Get the source</button>
+                    </div>
+                    <div class="plan">
+                        <span class="mono-label">Tier B</span>
+                        <h3>Subscription</h3>
+                        <div class="price">$1,499</div>
+                        <p class="text-[0.9375rem] text-ink-2">Everything in Tier A, with a team behind it when something needs answering.</p>
+                        <ul><li>Everything in Tier A</li><li>Continuous updates</li><li>Support channel</li></ul>
+                        <button type="button" class="btn btn-ghost mt-auto" data-contact="Subscription">Choose the subscription</button>
+                    </div>
+                    <div class="plan">
+                        <span class="mono-label">Tier C</span>
+                        <h3>White-label</h3>
+                        <p class="text-[0.9375rem] text-ink-2">Your brand on the whole platform, with our support and consultation. The terms are agreed in a conversation, not listed.</p>
+                        <ul><li>Everything in Tier A and B</li><li>Support and consultation included</li><li>Price defined together</li></ul>
+                        <button type="button" class="btn mt-auto" data-contact="White-label">Talk to us</button>
+                    </div>
                 </div>
-                <p class="border border-dashed border-rule-strong bg-paper px-[0.9rem] py-[0.7rem] font-mono text-[0.8rem] leading-normal text-ink-3">// PLACEHOLDER: pricing and licence model are not decided. Edit this section before launch.</p>
+                <p class="max-w-176 text-[0.9375rem] text-ink-2">Prices are in US dollars.</p>
             </div>
         </section>
 
@@ -470,12 +591,16 @@ MEDIA_BASE_URL=<span class="s">https://media.example.com</span>
         <section class="sec" id="faq">
             <div class="sec-label">Questions</div>
             <div class="sec-body">
-                <h2 class="h2">Answers for people who have evaluated RTB platforms before.</h2>
+                <h2 class="h2">Answers for people who have evaluated RTB platforms and ad networks before.</h2>
                 <div class="border-t border-ink">
                     <details class="faq"><summary>Is Auctionly a hosted service?</summary><p>No. Auctionly is self-hosted software. You deploy it with Docker on your own server, and your campaigns, wallets and events stay on your infrastructure.</p></details>
                     <details class="faq"><summary>Which OpenRTB version does it support?</summary><p>OpenRTB 2.5. Each exchange gets its own /bid/{exchange} endpoint and receives a bid, win notices and tracked clicks.</p></details>
                     <details class="faq"><summary>How fast does the bidder respond?</summary><p>The target is under 100 ms, typically a few milliseconds. The bidder never touches the database on the bid path, and it applies a deadline derived from the exchange's tmax.</p></details>
-                    <details class="faq"><summary>Which ad formats can advertisers run?</summary><p>Seven: display, video (VAST), native, push, pop, domain redirect and deeplink.</p></details>
+                    <details class="faq"><summary>Can publishers send traffic without an ad server?</summary><p>Yes. A publisher signs up, adds a website, verifies it and pastes one ad tag, or sends visitors to a traffic URL. There is no OpenRTB and no auction on that path: matching campaigns take turns at their own fixed prices.</p></details>
+                    <details class="faq"><summary>How do you verify that a publisher owns a site?</summary><p>The publisher proves it with a meta tag on the home page, a file at the root of the site, or a DNS TXT record. An administrator then approves the site, and only an approved site can have zones. Suspending or rejecting a site stops its zones at once.</p></details>
+                    <details class="faq"><summary>How are publishers paid?</summary><p>On terms you set per publisher or per zone: a share of what the advertiser spent, or a fixed amount per impression, click or conversion. Earnings are credited once, held for a few days, and paid out on request, with progress from requested to processing to paid.</p></details>
+                    <details class="faq"><summary>How do you stop fake traffic from publishers?</summary><p>Ads are only served to the zone's own approved site, bots are not sold, and limits per address and per zone per day bound what any zone can cost. Tracked URLs are signed, OpenRTB is off by default for publisher zones, and earnings are held so bad traffic can be taken back. Zones with odd click rates are flagged for review.</p></details>
+                    <details class="faq"><summary>Which ad formats can advertisers run?</summary><p>Seven: display, video (VAST), native, push, pop, domain redirect and deeplink. Through publishers you onboard directly, display runs through an ad tag and pop, domain redirect and deeplink through a traffic URL.</p></details>
                     <details class="faq"><summary>How do advertisers pay?</summary><p>They fund a prepaid wallet by card through Stripe or by bank transfer. Card payments are credited only after Stripe confirms them. Bank transfers are credited when an administrator approves the request.</p></details>
                     <details class="faq"><summary>Can an impression be billed twice?</summary><p>No. An impression that is delivered twice is charged once. Events are keyed by their stream id, so a redelivered event overwrites itself instead of billing again.</p></details>
                     <details class="faq"><summary>What happens if Elasticsearch goes down?</summary><p>Reporting falls back to PostgreSQL rollups. The dimensions that only the event log knows are then reported as unavailable, and bidding is not affected because the bidder only uses Redis.</p></details>
@@ -514,7 +639,6 @@ MEDIA_BASE_URL=<span class="s">https://media.example.com</span>
         <ul class="flex flex-wrap gap-x-7 gap-y-2">
             <li><a class="no-underline hover:text-white" href="#">Docs</a></li>
             <li><a class="no-underline hover:text-white" href="#">Source</a></li>
-            <li><a class="no-underline hover:text-white" href="#">Sign in</a></li>
             <li><button type="button" class="cursor-pointer hover:text-white" data-contact="Live demo">Request a demo</button></li>
             <li><a class="no-underline hover:text-white" href="#">Contact: hello@auctionly.com</a></li>
         </ul>
