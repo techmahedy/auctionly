@@ -1,0 +1,10 @@
+{
+    email {$ACME_EMAIL}
+    frankenphp
+}
+
+{$SERVER_NAME} {
+    root * /app/public
+    encode zstd gzip
+    php_server
+}
