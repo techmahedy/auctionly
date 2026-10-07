@@ -210,6 +210,10 @@
         @apply block w-full rounded-[3px] border border-rule-strong bg-panel px-3 py-2.5 text-[0.9375rem] text-ink transition-[border-color,box-shadow] placeholder:text-ink-3/70 hover:border-ink-3 focus:border-accent focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,91,255,0.18)];
         font-family: inherit;
     }
+    /* One height for every single-line control: a select and an input are sized differently by default. */
+    .field input, .field select { @apply h-11 py-0; }
+    .field select { @apply cursor-pointer pr-9; }
+    .field textarea { @apply py-2.5; }
     .field textarea { @apply resize-y; min-height: 7.5rem; }
     .field.invalid input, .field.invalid select, .field.invalid textarea { @apply border-[#c4133f] focus:shadow-[0_0_0_3px_rgba(196,19,63,0.15)]; }
     .field-error { @apply mt-1.5 min-h-0 text-[0.8125rem] text-[#c4133f]; }

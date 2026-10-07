@@ -7,8 +7,8 @@
         <meta name="csrf-token" content="[[ csrf_token() ]]" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <meta name="description" content="Run your own ad exchange. Auctionly is self-hosted real-time bidding software: OpenRTB 2.5, sub-100 ms bidding, 7 ad formats, wallet billing with Stripe and bank transfer. Docker-native, open to your data." />
-        <meta name="keywords" content="self-hosted RTB platform, real-time bidding software, OpenRTB 2.5 bidder, ad exchange software, campaign management platform, DSP software, ad network software, affiliate marketing platform, white-label ad platform, PHP RTB, Zeropark alternative, PropellerAds alternative, Kevel alternative, Adnuntius alternative, push ads, pop ads, VAST video ads, native ads, domain redirect ads, deeplink ads" />
+        <meta name="description" content="Run your own ad network. Auctionly is self-hosted software that buys from ad exchanges over OpenRTB 2.5 and from publishers you onboard yourself: sub-100 ms bidding, ad tags, 7 ad formats, publisher payouts, Stripe and bank-transfer billing. Docker-native, open to your data." />
+        <meta name="keywords" content="self-hosted ad network software, publisher portal, publisher ad tag, direct publisher traffic, publisher payouts, ad network platform, self-hosted RTB platform, real-time bidding software, OpenRTB 2.5 bidder, ad exchange software, campaign management platform, DSP software, ad network software, affiliate marketing platform, white-label ad platform, PHP RTB, Zeropark alternative, PropellerAds alternative, Kevel alternative, Adnuntius alternative, push ads, pop ads, VAST video ads, native ads, domain redirect ads, deeplink ads" />
         <meta name="author" content="Auctionly" />
         <meta name="publisher" content="Auctionly" />
         <meta name="application-name" content="Auctionly" />
@@ -53,8 +53,8 @@
         <!-- Open Graph -->
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Auctionly" />
-        <meta property="og:title" content="Auctionly: Self-Hosted RTB Platform and Ad Exchange Software" />
-        <meta property="og:description" content="Self-hosted real-time bidding and campaign management. OpenRTB 2.5 in, a bid out in under 100 ms, seven ad formats, Stripe and bank-transfer wallet billing. You deploy it, you own the data." />
+        <meta property="og:title" content="Auctionly: Self-Hosted RTB Platform and Ad Network Software" />
+        <meta property="og:description" content="Self-hosted ad network software. Buy from exchanges over OpenRTB 2.5 or from verified publishers with an ad tag, seven ad formats, publisher payouts, Stripe and bank-transfer billing. You deploy it, you own the data." />
         <meta property="og:url" content="[[ rtrim((string) env('APP_URL', 'http://localhost:8000'), '/') ]]/" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:image" content="[[ rtrim((string) env('APP_URL', 'http://localhost:8000'), '/') ]]/og-image.png" />
@@ -66,8 +66,8 @@
 
         <!-- Twitter / X -->
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Auctionly: Self-Hosted RTB Platform and Ad Exchange Software" />
-        <meta name="twitter:description" content="Self-hosted real-time bidding and campaign management. OpenRTB 2.5 in, a bid out in under 100 ms, seven ad formats, Stripe and bank-transfer wallet billing. You deploy it, you own the data." />
+        <meta name="twitter:title" content="Auctionly: Self-Hosted RTB Platform and Ad Network Software" />
+        <meta name="twitter:description" content="Self-hosted ad network software. Buy from exchanges over OpenRTB 2.5 or from verified publishers with an ad tag, seven ad formats, publisher payouts, Stripe and bank-transfer billing. You deploy it, you own the data." />
         <meta name="twitter:image" content="[[ rtrim((string) env('APP_URL', 'http://localhost:8000'), '/') ]]/og-image.png" />
         <meta name="twitter:image:alt" content="Auctionly: your own ad exchange, self-hosted. An OpenRTB 2.5 bid request and response." />
 
@@ -93,7 +93,7 @@
       "@id": "[[ rtrim((string) env('APP_URL', 'http://localhost:8000'), '/') ]]/#website",
       "url": "[[ rtrim((string) env('APP_URL', 'http://localhost:8000'), '/') ]]/",
       "name": "Auctionly",
-      "description": "Run your own ad exchange. Auctionly is self-hosted real-time bidding software: OpenRTB 2.5, sub-100 ms bidding, 7 ad formats, wallet billing with Stripe and bank transfer. Docker-native, open to your data.",
+      "description": "Run your own ad network. Auctionly is self-hosted software that buys from ad exchanges over OpenRTB 2.5 and from publishers you onboard yourself: sub-100 ms bidding, ad tags, 7 ad formats, publisher payouts, Stripe and bank-transfer billing. Docker-native, open to your data.",
       "inLanguage": "en",
       "publisher": {
         "@id": "[[ rtrim((string) env('APP_URL', 'http://localhost:8000'), '/') ]]/#organization"
@@ -103,8 +103,8 @@
       "@type": "WebPage",
       "@id": "[[ rtrim((string) env('APP_URL', 'http://localhost:8000'), '/') ]]/#webpage",
       "url": "[[ rtrim((string) env('APP_URL', 'http://localhost:8000'), '/') ]]/",
-      "name": "Auctionly: Self-Hosted RTB Platform and Ad Exchange Software",
-      "description": "Run your own ad exchange. Auctionly is self-hosted real-time bidding software: OpenRTB 2.5, sub-100 ms bidding, 7 ad formats, wallet billing with Stripe and bank transfer. Docker-native, open to your data.",
+      "name": "Auctionly: Self-Hosted RTB Platform and Ad Network Software",
+      "description": "Run your own ad network. Auctionly is self-hosted software that buys from ad exchanges over OpenRTB 2.5 and from publishers you onboard yourself: sub-100 ms bidding, ad tags, 7 ad formats, publisher payouts, Stripe and bank-transfer billing. Docker-native, open to your data.",
       "inLanguage": "en",
       "isPartOf": {
         "@id": "[[ rtrim((string) env('APP_URL', 'http://localhost:8000'), '/') ]]/#website"
@@ -125,7 +125,7 @@
       "name": "Auctionly",
       "url": "[[ rtrim((string) env('APP_URL', 'http://localhost:8000'), '/') ]]/",
       "image": "[[ rtrim((string) env('APP_URL', 'http://localhost:8000'), '/') ]]/og-image.png",
-      "description": "Self-hosted real-time bidding (RTB) and campaign management platform for ad networks, affiliate marketers and agencies. OpenRTB 2.5, seven ad formats, wallet billing with Stripe and bank transfer.",
+      "description": "Self-hosted ad network platform for ad networks, affiliate marketers and agencies: real-time bidding (OpenRTB 2.5) and direct publishers with verified sites and ad tags, campaign management, seven ad formats, publisher payouts and wallet billing with Stripe and bank transfer.",
       "applicationCategory": "BusinessApplication",
       "applicationSubCategory": "Advertising technology",
       "operatingSystem": "Linux, Docker",
@@ -138,6 +138,11 @@
       "featureList": [
         "OpenRTB 2.5 bidder with sub-100 ms target latency",
         "Seven ad formats: display, video (VAST), native, push, pop, domain redirect, deeplink",
+        "Publisher portal: verified sites, zones, copy-and-paste ad tags and traffic URLs",
+        "Site ownership verification by meta tag, file or DNS record, with administrator approval",
+        "Fixed-price delivery to publisher traffic (per view, click or conversion), no auction",
+        "Publisher earnings by share or fixed rate, with payout requests, progress tracking, billing and tax details",
+        "Traffic-quality controls for publishers: per-zone daily limits, referrer checks, signed URLs, payout hold",
         "Prepaid wallet funded by Stripe card payments or bank transfer",
         "Exactly-once billing",
         "Bid hierarchy: zone, site, category, campaign",
@@ -184,10 +189,42 @@
             },
             {
               "@type": "Question",
+              "name": "Can publishers send traffic without an ad server?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. A publisher signs up, adds a website, verifies it and pastes one ad tag, or sends visitors to a traffic URL. There is no OpenRTB and no auction on that path: matching campaigns take turns at their own fixed prices."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do you verify that a publisher owns a site?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The publisher proves it with a meta tag on the home page, a file at the root of the site, or a DNS TXT record. An administrator then approves the site, and only an approved site can have zones. Suspending or rejecting a site stops its zones at once."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How are publishers paid?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "On terms you set per publisher or per zone: a share of what the advertiser spent, or a fixed amount per impression, click or conversion. Earnings are credited once, held for a few days, and paid out on request, with progress from requested to processing to paid."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do you stop fake traffic from publishers?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ads are only served to the zone's own approved site, bots are not sold, and limits per address and per zone per day bound what any zone can cost. Tracked URLs are signed, OpenRTB is off by default for publisher zones, and earnings are held so bad traffic can be taken back. Zones with odd click rates are flagged for review."
+              }
+            },
+            {
+              "@type": "Question",
               "name": "Which ad formats can advertisers run?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Seven: display, video (VAST), native, push, pop, domain redirect and deeplink."
+                "text": "Seven: display, video (VAST), native, push, pop, domain redirect and deeplink. Through publishers you onboard directly, display runs through an ad tag and pop, domain redirect and deeplink through a traffic URL."
               }
             },
             {
