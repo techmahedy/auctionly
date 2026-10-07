@@ -27,6 +27,7 @@ RUN install-php-extensions \
     opcache \
     pdo_mysql \
     pdo_sqlite \
+    redis \
     zip \
     && printf '%s\n' \
         'opcache.enable=1' \
