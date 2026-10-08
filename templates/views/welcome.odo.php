@@ -640,7 +640,7 @@ MEDIA_BASE_URL=<span class="s">https://media.example.com</span>
             <li><a class="no-underline hover:text-white" href="#">Docs</a></li>
             <li><a class="no-underline hover:text-white" href="#">Source</a></li>
             <li><button type="button" class="cursor-pointer hover:text-white" data-contact="Live demo">Request a demo</button></li>
-            <li><a class="no-underline hover:text-white" href="#">Contact: hello@auctionly.com</a></li>
+            <li><button type="button" class="cursor-pointer hover:text-white" data-contact="Live demo">Contact</button></li>
         </ul>
         <span>Self-hosted software. You deploy it, you own it.</span>
     </div>
