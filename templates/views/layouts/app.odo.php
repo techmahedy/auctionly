@@ -7,6 +7,7 @@
         <meta name="csrf-token" content="[[ csrf_token() ]]" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <meta name="google-site-verification" content="-1eA9k5djprG5CclmW7KDMlnBDn81sptX-dc73zTC-Q" />
         <meta name="description" content="Run your own ad network. Auctionly is self-hosted software that buys from ad exchanges over OpenRTB 2.5 and from publishers you onboard yourself: sub-100 ms bidding, ad tags, 7 ad formats, publisher payouts, Stripe and bank-transfer billing. Docker-native, open to your data." />
         <meta name="keywords" content="self-hosted ad network software, publisher portal, publisher ad tag, direct publisher traffic, publisher payouts, ad network platform, self-hosted RTB platform, real-time bidding software, OpenRTB 2.5 bidder, ad exchange software, campaign management platform, DSP software, ad network software, affiliate marketing platform, white-label ad platform, PHP RTB, Zeropark alternative, PropellerAds alternative, Kevel alternative, Adnuntius alternative, push ads, pop ads, VAST video ads, native ads, domain redirect ads, deeplink ads" />
         <meta name="author" content="Auctionly" />
