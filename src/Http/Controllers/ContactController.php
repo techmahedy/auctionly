@@ -63,7 +63,7 @@ class ContactController extends Controller
         }
 
         try {
-            Mail::to((string) env('CONTACT_TO_ADDRESS', 'mahedy150101@gmail.com'), 'Auctionly')
+            Mail::to((string) env('CONTACT_TO_ADDRESS', 'contact@auctionly.cc'), 'Auctionly')
                 ->send(new ContactInquiry($data, (string) $request->ip()));
         } catch (\Throwable $e) {
             return response()->json(['ok' => false, 'message' => 'We could not send your message. Please try again in a minute.'], 500);
