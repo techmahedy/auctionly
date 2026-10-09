@@ -13,7 +13,7 @@ class Gateway extends Middleware implements GatewayInterface
      * @var array
      */
     public array $middleware = [
-        // \App\Http\Middleware\TrustProxies::class,
+        \App\Http\Middleware\TrustProxies::class,
     ];
 
     /**
