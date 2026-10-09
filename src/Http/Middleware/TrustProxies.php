@@ -17,7 +17,7 @@ class TrustProxies implements Middleware
      *
      * @var array|string
      */
-    protected $proxies = [];
+    protected $proxies = ['REMOTE_ADDR'];
 
     /**
      * The proxy headers to trust
