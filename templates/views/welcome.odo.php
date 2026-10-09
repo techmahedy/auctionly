@@ -29,9 +29,9 @@ Auctionly: Self-Hosted RTB Platform and Ad Network Software
     <!-- HERO -->
     <section class="mx-auto grid max-w-[74rem] items-center gap-10 py-12 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:pt-[4.5rem] lg:pb-14">
         <div>
-            <p class="eyebrow mb-[1.4rem] text-accent-ink">EXCHANGES + PUBLISHERS + WALLET</p>
+            <p class="eyebrow mb-[1.4rem] text-accent-ink">One platform for exchange bids and your own publishers</p>
             <h1 class="text-[clamp(2.5rem,5.4vw,4.4rem)] leading-none font-extrabold tracking-[-0.035em]">
-                Your own ad network, <em class="bg-[linear-gradient(transparent_74%,var(--color-mark)_74%,var(--color-mark)_92%,transparent_92%)] not-italic">self-hosted.</em>
+                Run your own ad network, <em class="bg-[linear-gradient(transparent_74%,var(--color-mark)_74%,var(--color-mark)_92%,transparent_92%)] not-italic">the data and the money.</em>
             </h1>
             <p class="mt-6 max-w-136 text-[1.1875rem] text-ink-2">Auctionly is the bidder, campaign manager, publisher portal and billing for running your own ad network. Buy from ad exchanges over OpenRTB 2.5 with a bid out in under 100 ms, or from publishers you onboard yourself with a verified site and one ad tag. Seven ad formats, and every record on a server you control.</p>
             <div class="mt-8 flex flex-wrap gap-3">
@@ -218,7 +218,7 @@ Auctionly: Self-Hosted RTB Platform and Ad Network Software
                     <div class="min-w-0 border-t border-rule bg-paper p-6 md:border-t-0 md:border-l">
                         <h3 class="zone-title">Cold path · money, reports, admin</h3>
                         <div class="flex flex-wrap gap-2">
-                            <span class="node">campaign-manager</span><span class="node node-store">postgres</span><span class="node">aggregator</span><span class="node">indexer</span><span class="node node-store">elasticsearch</span><span class="node">reporting</span><span class="node">optimizer</span>
+                            <span class="node">campaign-manager</span><span class="node node-store">postgres</span><span class="node">aggregator</span><span class="node">indexer</span><span class="node">monitor</span><span class="node node-store">elasticsearch</span><span class="node">reporting</span><span class="node">optimizer</span>
                         </div>
                         <p class="zone-note">Campaigns, wallets and users live in PostgreSQL. Events flow through a Redis stream to the aggregator and the indexer, at their own pace.</p>
                     </div>
@@ -226,7 +226,9 @@ Auctionly: Self-Hosted RTB Platform and Ad Network Software
 
                 <div class="grid border-t border-ink md:grid-cols-2">
                     <div class="fact"><h3>Redis only on the bid path</h3><p>Campaigns are held in memory. The bidder has no database driver in its request loop.</p></div>
-                    <div class="fact"><h3>Exactly-once billing</h3><p>An impression delivered twice is charged once. Events are keyed by stream id, so a redelivery overwrites itself.</p></div>
+                    <div class="fact"><h3>Exactly-once billing</h3><p>An impression delivered twice is charged once. The aggregator books each batch and its stream position in one transaction, so a crash or a redelivery cannot bill twice. Only one aggregator may run, and a lock enforces it.</p></div>
+                    <div class="fact"><h3>Bad events cannot stall billing</h3><p>An event that keeps failing is set aside after three tries in a quarantine list, so the rest of the stream keeps flowing and you are alerted.</p></div>
+                    <div class="fact"><h3>Redis can be rebuilt</h3><p>The campaign snapshot and today's spend counters are rebuilt from PostgreSQL. Only events not yet read by the aggregator live in Redis alone, and the monitor watches how old they are.</p></div>
                     <div class="fact"><h3>Under 100&nbsp;ms target</h3><p>A per-request deadline is derived from the exchange's <code class="inline-code">tmax</code>. <code class="inline-code">make latency</code> measures it with wrk on your hardware.</p></div>
                     <div class="fact"><h3>Fuzz-tested input</h3><p>Seeded random malformed bid requests must never crash the parser or the auction. <code class="inline-code">make fuzz</code></p></div>
                     <div class="fact"><h3>Chaos-tested outages</h3><p>Redis, Postgres, Elasticsearch, mail and a killed worker are injected on purpose. <code class="inline-code">make chaos</code></p></div>
@@ -245,7 +247,7 @@ Auctionly: Self-Hosted RTB Platform and Ad Network Software
             <div class="sec-body">
                 <div>
                     <h2 class="h2">Everything an ad network needs, in one repository.</h2>
-                    <p class="lede">Seven services, one shared kernel, one Docker Compose file. Read it, change it, ship it.</p>
+                    <p class="lede">Every service, one shared kernel, one Docker Compose file. Read it, change it, ship it.</p>
                 </div>
                 <div class="panel grid md:grid-cols-2 lg:grid-cols-3">
                     <article class="feat"><span class="mono-label">campaign-manager</span><h3>Web app and REST API</h3><p>One campaign form with ad-format cards, budgets, bid hierarchy, delivery limits, creatives, targeting and conversion setup. The API enforces the same rules.</p></article>
@@ -254,7 +256,7 @@ Auctionly: Self-Hosted RTB Platform and Ad Network Software
                     <article class="feat"><span class="mono-label">placements</span><h3>Whitelist, blacklist, bid per zone</h3><p>Block or allow placements, share large lists between campaigns, and set a bid for one zone straight from the report.</p></article>
                     <article class="feat"><span class="mono-label">tracking</span><h3>Landing-URL tags and postbacks</h3><p>Insert tags like {click_id}, {zone} and {country} into destination URLs. A postback builder writes the conversion URL for your tracker.</p></article>
                     <article class="feat"><span class="mono-label">limits</span><h3>Budgets, pacing, caps</h3><p>Daily and lifetime budgets, pacing, frequency caps, schedules, impression and click limits. A campaign that hits one pauses and records why.</p></article>
-                    <article class="feat"><span class="mono-label">metrics</span><h3>Operable from day one</h3><p>The bidder serves /health and Prometheus /metrics: requests by exchange and outcome, rejections by reason, a latency histogram.</p></article>
+                    <article class="feat"><span class="mono-label">metrics</span><h3>Operable from day one</h3><p>The bidder serves /health, a /ready that checks Redis and the loaded campaigns, and Prometheus /metrics: requests by exchange and outcome, rejections by reason, lost events, a latency histogram.</p></article>
                     <article class="feat"><span class="mono-label">mail</span><h3>Queued email with retries</h3><p>Sign-up, password reset and payment email goes through a queue with retries after 1, 2, 4 and 8 minutes. Bodies are erased once sent.</p></article>
                     <article class="feat"><span class="mono-label">demo</span><h3>Realistic data in one command</h3><p>make fake-data creates advertisers, wallets and campaigns. make traffic sends 300 requests through bid, win, pixel, click and conversion.</p></article>
                     <article class="feat"><span class="mono-label">review</span><h3>Approve before it bids</h3><p>An advertiser's campaign waits in review until you approve it or send it back with a note. Trusted advertisers can skip it.</p></article>
@@ -262,6 +264,9 @@ Auctionly: Self-Hosted RTB Platform and Ad Network Software
                     <article class="feat"><span class="mono-label">publishers</span><h3>Portal for sites, zones and payouts</h3><p>Publishers sign up, add a site, create zones and copy a tag. Earnings, payout progress and billing details are in their own area.</p></article>
                     <article class="feat"><span class="mono-label">verification</span><h3>Ownership proven before traffic</h3><p>A meta tag, a file or a DNS record proves a site is the publisher's. You approve it, and only then can it have zones.</p></article>
                     <article class="feat"><span class="mono-label">zones</span><h3>Thousands of zones, one snapshot</h3><p>Zones are looked up on demand and kept out of the campaign snapshot, so adding publishers never slows a campaign reload.</p></article>
+                    <article class="feat"><span class="mono-label">conversions</span><h3>Hold, approve, reverse</h3><p>A campaign can hold conversions for the advertiser's approval. Approved ones can later be reversed, and the wallet and the publisher's earnings are corrected with explicit adjustment rows.</p></article>
+                    <article class="feat"><span class="mono-label">monitor</span><h3>Alerts before customers notice</h3><p>A monitor checks event backlog, aggregator lag, lost events, errors and backups. A System page shows ok, warn or critical, and a webhook tells you when it changes.</p></article>
+                    <article class="feat"><span class="mono-label">ledger</span><h3>Books that reconcile</h3><p>Money is booked in whole micro-dollars by one aggregator. <code>make reconcile-ledger</code> proves every wallet equals its ledger, and <code>make restore-drill</code> restores a backup into a scratch database to prove it works.</p></article>
                     <article class="feat"><span class="mono-label">media</span><h3>Image upload and a CDN-ready domain</h3><p>Upload creatives in the form or with POST /api/v1/media. Serve them from their own domain, cached for a year, with a CDN in front when you need one.</p></article>
                 </div>
             </div>
@@ -277,7 +282,7 @@ Auctionly: Self-Hosted RTB Platform and Ad Network Software
                         <div class="dl-row"><dt>Supply</dt><dd>Buy from exchanges, from your own publishers, or both, per campaign. Publisher-only campaigns pay a fixed price per view, click or conversion.</dd></div>
                         <div class="dl-row"><dt>Wallet</dt><dd>Fund by card (credited only after Stripe confirms) or by bank transfer approved by an admin.</dd></div>
                         <div class="dl-row"><dt>Targeting</dt><dd>Geo (country to ZIP), device, OS, carrier, domain, app, zone, category, keyword, audience.</dd></div>
-                        <div class="dl-row"><dt>Conversions</dt><dd>Postback builder, a window per campaign, and conversions that keep the click's format, zone and country.</dd></div>
+                        <div class="dl-row"><dt>Conversions</dt><dd>Postback builder, a window per campaign, and conversions that keep the click's format, zone and country. Hold them for your approval, and reverse one later if it turns out to be fake.</dd></div>
                         <div class="dl-row"><dt>Attribution</dt><dd>Six attribution models.</dd></div>
                         <div class="dl-row"><dt>Limits</dt><dd>Daily and lifetime budgets, pacing, frequency caps, schedules.</dd></div>
                         <div class="dl-row"><dt>REST API</dt><dd>Token-based, using the same validation as the web form.</dd></div>
@@ -457,7 +462,7 @@ Auctionly: Self-Hosted RTB Platform and Ad Network Software
                     <div class="sec-cell"><h3>Signed, fixed prices</h3><p>Tracked URLs carry an HMAC. A forged price, campaign or level is refused, and a click or win counts once.</p></div>
                     <div class="sec-cell"><h3>OpenRTB off by default</h3><p>A publisher's own bid requests prove nothing, so the endpoint is opt-in per zone for partners you trust.</p></div>
                     <div class="sec-cell"><h3>Payout hold</h3><p>Earnings are held for a few days so bad traffic can be taken back with an adjustment before the money leaves.</p></div>
-                    <div class="sec-cell"><h3>Quality flags</h3><p>Zones with a very high click rate, no conversions, or a payout above what advertisers pay are flagged for you.</p></div>
+                    <div class="sec-cell"><h3>Quality flags</h3><p>Zones with a very high click rate, no conversions, or a payout above what advertisers pay are flagged for you, with a review queue to dismiss or act on each one.</p></div>
                 </div>
                 <p class="max-w-168 border-l-[3px] border-mark py-1 pl-[1.1rem] text-ink-2"><b class="text-ink">Honest limits.</b> A redirect has no page to inspect, and a script can fake a referrer. The limits, the hold and the flags are what bound the cost, not a promise that no fake traffic exists.</p>
             </div>
@@ -476,6 +481,9 @@ Auctionly: Self-Hosted RTB Platform and Ad Network Software
                     <div class="sec-cell"><h3>Automated backups</h3><p><code>make backup</code> dumps the database and creatives, keeping as many as you set.</p></div>
                     <div class="sec-cell"><h3>Confirmed sign-ups</h3><p>Switch it on and a new account cannot sign in until it opens a one-time link. Only a button confirms, so mail scanners cannot use the link up.</p></div>
                     <div class="sec-cell"><h3>Terms on record</h3><p>Sign-up requires accepting the Terms and Privacy Policy, and stores which version and when.</p></div>
+                    <div class="sec-cell"><h3>Signed postbacks</h3><p>An advertiser can require an HMAC on conversion postbacks. Without it, a click id alone is the credential, and a click can credit at most five conversions.</p></div>
+                    <div class="sec-cell"><h3>Privacy signals</h3><p>The bidder reads TCF v2, GPP and US privacy strings and refuses to bid where consent was not given. It is on by default and set in the environment.</p></div>
+                    <div class="sec-cell"><h3>Tested restore</h3><p>A backup you have never restored is a hope. <code>make restore-drill</code> restores the latest one into a scratch database and checks it.</p></div>
                     <div class="sec-cell"><h3>Abuse limits</h3><p>Failed sign-ins lock out for 15 minutes. Sign-up, password reset, confirmation email and uploads are rate-limited per address.</p></div>
                 </div>
             </div>
@@ -512,7 +520,7 @@ Auctionly: Self-Hosted RTB Platform and Ad Network Software
           └─ bidder
 <span class="d">private network only:</span>
   postgres · redis · elasticsearch
-  reporting · aggregator · indexer</pre>
+  reporting · aggregator · indexer · monitor</pre>
                         </figure>
                         <p class="text-[0.9875rem] text-ink-2">Caddy is the only published service. It issues certificates, speaks HTTP/2 and limits request sizes. The written guide takes a fresh Linux server to HTTPS in about 45 minutes, plus DNS.</p>
                     </div>
@@ -603,6 +611,10 @@ MEDIA_BASE_URL=<span class="s">https://media.example.com</span>
                     <details class="faq"><summary>Which ad formats can advertisers run?</summary><p>Seven: display, video (VAST), native, push, pop, domain redirect and deeplink. Through publishers you onboard directly, display runs through an ad tag and pop, domain redirect and deeplink through a traffic URL.</p></details>
                     <details class="faq"><summary>How do advertisers pay?</summary><p>They fund a prepaid wallet by card through Stripe or by bank transfer. Card payments are credited only after Stripe confirms them. Bank transfers are credited when an administrator approves the request.</p></details>
                     <details class="faq"><summary>Can an impression be billed twice?</summary><p>No. An impression that is delivered twice is charged once. Events are keyed by their stream id, so a redelivered event overwrites itself instead of billing again.</p></details>
+                    <details class="faq"><summary>Can I hold conversions until I have checked them?</summary><p>Yes. Switch it on per campaign and new conversions wait as pending until the advertiser approves or rejects them. An approved conversion can be reversed later, which corrects the wallet and the publisher's earnings with adjustment rows instead of rewriting history.</p></details>
+                    <details class="faq"><summary>How is the conversion postback trusted?</summary><p>By default the signed click id is the credential. An advertiser can turn on a secret and sign each postback with HMAC-SHA256, and an unsigned or wrongly signed one is refused. A single click can credit at most five conversions either way.</p></details>
+                    <details class="faq"><summary>How do I know something is broken?</summary><p>A monitor checks the event backlog, aggregator lag, lost events, errors and backups. The System page shows each as ok, warn or critical, and a webhook can notify you of a change. The bidder also has a /ready endpoint for load balancers.</p></details>
+                    <details class="faq"><summary>Does it respect user consent signals?</summary><p>The bidder parses TCF v2, GPP and US privacy strings. By default it does not bid on a request that says consent was not given for the purposes you list. You can switch it off or change the purposes in the environment, and you stay responsible for your own legal review.</p></details>
                     <details class="faq"><summary>What happens if Elasticsearch goes down?</summary><p>Reporting falls back to PostgreSQL rollups. The dimensions that only the event log knows are then reported as unavailable, and bidding is not affected because the bidder only uses Redis.</p></details>
                     <details class="faq"><summary>Are campaigns reviewed before they go live?</summary><p>Yes, by default. An advertiser's campaign waits in review until an administrator approves it or sends it back with a note, and the advertiser is emailed either way. Administrators can mark an advertiser as trusted to skip the review, or switch the review off.</p></details>
                     <details class="faq"><summary>Can advertisers use an API?</summary><p>Yes. The REST API has ten endpoints for campaigns, status changes, image upload and reports, with personal tokens and the same validation as the web form. An advertiser's token only sees that advertiser's campaigns.</p></details>
