@@ -24,9 +24,11 @@ services:
       - app-storage:/app/storage
       - caddy-data:/data
       - caddy-config:/config
-    ports:
-      - "80:80"
-      - "443:443"
+    expose:
+      - 80
+    networks:
+      - default
+      - proxy
 
   database:
     image: mysql:8.4
@@ -59,3 +61,7 @@ volumes:
   redis-data:
   caddy-data:
   caddy-config:
+
+networks:
+  proxy:
+    external: true
